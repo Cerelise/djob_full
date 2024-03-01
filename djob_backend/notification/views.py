@@ -1,6 +1,6 @@
+from core.handler import APIResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from core.handler import APIResponse
 
 from .models import Notification
 from .serializers import NotificationSerializer
@@ -8,7 +8,6 @@ from .serializers import NotificationSerializer
 
 @api_view(['GET'])
 def notifications(request):
-    print(request.user)
 
     received_notifications = Notification.objects.filter(created_for_id=request.user.id)
     # print(received_notifications)

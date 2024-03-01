@@ -35,7 +35,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
     resume = serializers.FileField(required=False,read_only=True)
     phone = serializers.CharField(required=False,allow_blank=True)
     description = serializers.CharField(required=False,allow_blank=True)
+    is_employer = serializers.BooleanField(required=False,read_only=True)
     
     class Meta:
         model = User
-        fields = ('id','email','name','phone','description','avatar','gender','resume')
+        fields = ('id','email','name','phone','description','avatar','gender','resume','is_employer')

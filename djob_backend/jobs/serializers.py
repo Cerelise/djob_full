@@ -1,4 +1,4 @@
-from accounts.serializers import UserSerializer,UserProfileSerializer
+from accounts.serializers import UserProfileSerializer, UserSerializer
 from company.serializers import CompanySerializer
 from rest_framework import serializers
 

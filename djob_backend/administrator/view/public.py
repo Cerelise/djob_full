@@ -4,9 +4,9 @@ from core.handler import APIResponse
 from django.db.models import Q
 from jobs.models import Job
 from jobs.serializers import JobSerializer
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view,permission_classes
 
 
 class FilterRecruitDataView(APIView):
@@ -14,7 +14,6 @@ class FilterRecruitDataView(APIView):
     permission_classes = [IsAdminUser]
     
     def get(selt,request):
-        # print(request)
         if request.GET.get('keyword',''):
             keyword = request.GET.get('keyword','')
         else :

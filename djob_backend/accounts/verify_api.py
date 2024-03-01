@@ -31,9 +31,7 @@ class ApplyListForEmployerView(APIView):
 
       def get(self,request):
           user_id = request.user.id
-          print(user_id)
           user_apply = CandidatesApplied.objects.filter(created_for=user_id)
-          print(user_apply)
 
           pageinator = PageNumberPagination()
           pageinator.page_size = 5

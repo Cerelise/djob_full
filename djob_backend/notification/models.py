@@ -1,10 +1,9 @@
 import uuid
 
 from accounts.models import UserAccount
-# from company.models import Company
+from company.models import Company
 from django.db import models
-
-# from jobs.models import CandidatesApplied, Job
+from jobs.models import CandidatesApplied, Job
 
 # Create your models here.
 
@@ -38,9 +37,9 @@ class Notification(models.Model):
   # is_read = models.BooleanField(default=False)
   notification_status = models.SmallIntegerField(default=0) # 0 处理中 1 通过 2 未通过
   type_of_notification = models.CharField(max_length=50,choices=CHOICE_TYPE_OF_NOTIFICATION)
-  # application = models.ForeignKey(CandidatesApplied,on_delete=models.SET_NULL,blank=True,null=True)
-  # job = models.ForeignKey(Job,on_delete=models.SET_NULL,blank=True,null=True)
-  # company = models.ForeignKey(Company,on_delete=models.SET_NULL,blank=True,null=True)
+  application = models.ForeignKey(CandidatesApplied,on_delete=models.SET_NULL,blank=True,null=True)
+  job = models.ForeignKey(Job,on_delete=models.SET_NULL,blank=True,null=True)
+  company = models.ForeignKey(Company,on_delete=models.SET_NULL,blank=True,null=True)
   created_by = models.ForeignKey(UserAccount,related_name='created_notification',on_delete=models.SET_NULL,null=True)
   created_for = models.ForeignKey(UserAccount,related_name='received_notification',on_delete=models.SET_NULL,null=True)
   created_at = models.DateTimeField(auto_now_add=True)

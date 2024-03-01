@@ -1,13 +1,15 @@
 from core.handler import APIResponse
 from django.shortcuts import get_object_or_404
+from django.utils.timezone import now
 from jobs.models import Comment, Job, Reply
 from jobs.permissions import IsEmployerOrReadOnly
 from jobs.serializers import CommentSerializer, JobSerializer, ReplySerializer
+from notification.models import Notification
 from notification.utils import create_notification
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
-from django.utils.timezone import now
+
 
 def AccountPaginator(page):
     paginator = PageNumberPagination()
@@ -21,19 +23,23 @@ class VerifyJob(APIView):
         data = request.data
         # 0为不通过 1为通过
         job_status = data['status']
-        # message = data['message']
 
         verified_job = Job.objects.filter(id=pk).update(
           status=job_status,
         )
+        original_notice = Notification.objects.filter(job=pk).first()
         if job_status == 1:
             notification = create_notification(request,'accept_job_request',job_id=pk)
             notification.notification_status = 1
             notification.save()
+            original_notice.notification_status = 1
+            original_notice.save()
         elif job_status == 2 :
             notification = create_notification(request,'reject_job_request',job_id=pk)
             notification.notification_status = 2
             notification.save()
+            original_notice.notification_status = 2
+            original_notice.save()
 
         job_detail = Job.objects.get(id=pk)
         job_detail.created_at = now()

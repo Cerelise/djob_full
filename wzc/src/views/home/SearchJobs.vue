@@ -1,5 +1,5 @@
 <template>
-  <SearchLayout api="" />
+	<SearchLayout api="" title="兼职列表" />
 </template>
 
 <script setup>

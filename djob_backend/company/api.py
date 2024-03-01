@@ -67,6 +67,9 @@ class CompanyListingView(APIView):
             company = serializer.save()
 
             notification = create_notification(request,'new_company_request',company_id=company.id)
+            current_company = Company.objects.filter(id=company.id).first()
+            notification.company = current_company
+            notification.save()
 
             return APIResponse(code=200,msg="企业信息提交成功！请等待管理员审核！",data=serializer.data)
         return APIResponse(code=400,msg="信息填写错误，请重新填写！")

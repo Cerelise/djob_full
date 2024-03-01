@@ -1,21 +1,22 @@
+from accounts.models import UserAccount
 from company.models import Company
 from core.handler import APIResponse
 from django.shortcuts import get_object_or_404
 from django.utils.timezone import now
+from notification.models import Notification
 from notification.utils import create_notification
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from accounts.models import UserAccount
 
 from .filters import JobsFilter
-from .models import CandidatesApplied, Job,Comment,Reply
+from .models import CandidatesApplied, Comment, Job, Reply
 from .permissions import (HandleAppicationIsEmployerOrReadOnly,
                           IsEmployerOrReadOnly)
-from .serializers import (CandidatesAppliedSerializer, CommentSerializer,CommitCommentSerializer,
-                          CommitJobSerializer, JobSerializer, ReplySerializer,CommitReplySerializer,
-                          UpdateJobSerializer)
+from .serializers import (CandidatesAppliedSerializer, CommitCommentSerializer,
+                          CommitJobSerializer, CommitReplySerializer,
+                          JobSerializer, UpdateJobSerializer)
 
 
 def JobPaginator(page):
@@ -63,14 +64,14 @@ class JobListingView(APIView):
         company_id = company.id
         data['company'] = company_id
 
-        # print(data)
-
         serializer = CommitJobSerializer(data=data)
         if serializer.is_valid():
             
             new_job = serializer.save()
-            # print(f'1:{new_job.id}')
             notification = create_notification(request,'new_job_request',job_id=new_job.id)
+            current_job = Job.objects.filter(id=new_job.id).first()
+            notification.job = current_job
+            notification.save()
 
             return APIResponse(code=200,msg="招聘信息提交成功！请等待管理员审核！")
         return APIResponse(code=400,msg="表单填写错误，请重新填写后提交！",data=serializer.errors)
@@ -137,6 +138,8 @@ def applyToJob(request,pk):
     )
 
     notification = create_notification(request,'new_apply_request',apply_id=application.id)
+    notification.application = application
+    notification.save()
 
     serializer = CandidatesAppliedSerializer(instance=application,many=False)
     response = {
@@ -181,15 +184,20 @@ class CandidatesAppliedManager(APIView):
         )
 
         apply_status = data['status']
+        original_notice = Notification.objects.filter(application=apply_detail).first()
         if apply_status == '通过':
             notification = create_notification(request,'accept_apply_request',apply_id=pk)
             notification.notification_status = 1
             notification.save()
+            original_notice.notification_status = 1
+            original_notice.save()
 
-        elif apply_status == 'rejected':
+        elif apply_status == '驳回':
             notification = create_notification(request,'reject_apply_request',apply_id=pk)
             notification.notification_status = 2
             notification.save()
+            original_notice.notification_status = 2
+            original_notice.save()
 
         detail = CandidatesApplied.objects.get(id=pk)
         detail.created_at = now()
