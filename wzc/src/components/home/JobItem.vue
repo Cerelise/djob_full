@@ -5,7 +5,12 @@
 	>
 		<n-space vertical size="medium">
 			<div class="text-xl font-medium">{{ item.title }}</div>
-			<n-rate size="large" readonly :default-value="item.vacancy" />
+			<n-rate
+				size="large"
+				readonly
+				:default-value="item.average_rate"
+				:allow-half="true"
+			/>
 			<n-text>工资:{{ item.salary }}</n-text>
 			<n-text>公司地址:{{ item.location }}</n-text>
 			<n-space>

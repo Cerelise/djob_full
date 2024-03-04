@@ -9,6 +9,7 @@ from django.utils import timezone
 class Comment(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
     content = models.TextField(blank=True,null=True)
+    rate = models.SmallIntegerField(default=0)
     created_by = models.ForeignKey(UserAccount,related_name='comments',on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     # 1是评论 2是回复
@@ -16,6 +17,9 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-created_at',]
+
+    def __str__(self) -> str:
+        return self.content
 
 class Reply(models.Model):
     id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
@@ -38,12 +42,12 @@ class Job(models.Model):
     location = models.CharField(max_length=255)
     category = models.CharField(max_length=200)
     salary = models.IntegerField(default=0,blank=True)
-    vacancy = models.IntegerField(default=1) # 招聘人数
+    average_rate = models.FloatField(default=0) # 平均评分
 
     status = models.SmallIntegerField(default=0)
     message = models.TextField(blank=True,null=True)
 
-    comments = models.ManyToManyField(Comment,blank=True)
+    comments = models.ManyToManyField(Comment,related_name="job_comments",blank=True)
     comments_count = models.IntegerField(default=0)
 
     created_at = models.DateTimeField(default=timezone.now)

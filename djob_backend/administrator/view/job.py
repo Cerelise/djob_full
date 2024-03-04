@@ -81,7 +81,6 @@ class AdminCommentReplyManagerView(APIView):
           detail_id = data['id']
           type_of = data['type']
 
-          print(type_of)
           if type_of == '1':
               detail = get_object_or_404(Comment,id=detail_id)
               detail.delete()

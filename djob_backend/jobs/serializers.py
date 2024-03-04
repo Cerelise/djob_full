@@ -24,13 +24,13 @@ class CommentSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
     class Meta:
         model = Comment
-        fields = ('id','content','created_by','created_at','comment_replied','type_of')
+        fields = ('id','content','rate','created_by','created_at','comment_replied','type_of')
 
 class CommitCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('content','created_by')
+        fields = ('content','rate','created_by')
 
 
 class JobSerializer(serializers.ModelSerializer):

@@ -215,59 +215,6 @@ class CandidatesAppliedManager(APIView):
 
         return APIResponse(code=200,msg="已撤销该求职申请")
 
-class CommentManagerView(APIView):
-
-    permission_classes = []
-
-    def post(self,request,pk):
-        
-        data = request.data
-
-        comment_data = {
-          "content":data['content'],
-          "created_by":request.user.id
-        }
-
-        serializer = CommitCommentSerializer(data=comment_data)
-
-        if serializer.is_valid():
-
-            comment = serializer.save()
-
-            job = Job.objects.get(id=pk)
-            job.comments_count = job.comments_count + 1
-            job.comments.add(comment)
-
-            job.save()
-
-            return APIResponse(code=200,msg="发布评论成功",data=serializer.data)
-        return APIResponse(code=200,msg="发布评论失败，请重新提交",data=serializer.errors)
-
-
-class ReplyManagerView(APIView):
-
-    permission_classes = [IsEmployerOrReadOnly]
-
-    serializer_class = CommitReplySerializer
-
-    def post(self,request):
-
-        data = request.data
-
-        reply_data = {
-            "content":data['content'],
-            "comment":data['comment'],
-            "created_by":request.user.id
-        }
-
-        serializer = self.serializer_class(data=reply_data)
-
-        if serializer.is_valid():
-            serializer.save()
-
-            return APIResponse(code=200,msg="评论回复已发布",data=serializer.data)
-        return APIResponse(code=400,msg="评论回复发送失败，请重试",data=serializer.errors)
-
 @api_view(['POST'])
 @permission_classes([])
 def publishCommentOrReply(request,pk):
@@ -278,11 +225,18 @@ def publishCommentOrReply(request,pk):
     user = UserAccount.objects.get(id=user_id)
 
     if data['comment_id'] == 'None':
-        comment = Comment.objects.create(content=content, created_by=user)
+        rate = data['rate']
+        comment = Comment.objects.create(content=content, rate=rate,created_by=user)
         job = Job.objects.get(id=pk)
         job.comments_count = job.comments_count + 1
         job.comments.add(comment)
-
+        comments_list = job.comments.all() 
+        rate_list = []
+        for comment in comments_list:
+            rate_list.append(comment.rate)
+        arr_sum = sum(rate_list)
+        rate_mean = arr_sum / len(rate_list)
+        job.average_rate = rate_mean
         job.save() 
     else:
         comment = Comment.objects.get(id=data['comment_id'])
