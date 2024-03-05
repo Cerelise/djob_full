@@ -30,13 +30,13 @@ class VerifyCompany(APIView):
             notification.notification_status = 1
             notification.save()
             original_notice.notification_status = 1
-            notification.save()
+            original_notice.save()
         elif company_status == 2:
             notification = create_notification(request,'reject_company_request',company_id=pk)
             notification.notification_status = 2
             notification.save()
             original_notice.notification_status = 2
-            notification.save()
+            original_notice.save()
 
         company_detail = Company.objects.get(id=pk)
         company_detail.created_at = now()
@@ -46,4 +46,4 @@ class VerifyCompany(APIView):
 
         
 
-        return APIResponse(code=200,msg='申请已处理！',data=company_serializer.data)
+        return APIResponse(code=200,msg='企业信息申请已处理！',data=company_serializer.data)

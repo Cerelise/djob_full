@@ -36,7 +36,7 @@ def uploadCompanyPhoto(request):
     
     picture = request.data
 
-    picture_path = handle_single_photo(picture['logo'])
+    picture_path = handle_single_photo(picture['avatar'])
 
     response = picture_path.replace('\\','/')
 

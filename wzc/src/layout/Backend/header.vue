@@ -2,14 +2,11 @@
 	<div class="flex justify-between items-center px-20">
 		<n-text>后台管理</n-text>
 		<div class="flex justify-center items-center">
-			<n-badge
-				:value="active"
-				:max="99"
-				class="mr-7"
-				@click="$router.push('/admin/approval')"
-			>
-				<n-icon size="35"><EmailSharp /> </n-icon>
-			</n-badge>
+			<!-- <n-badge :value="active" :max="99" class="mr-7">
+				<n-icon size="35"
+					><EmailSharp @click="$router.push('/admin/approval')" />
+				</n-icon>
+			</n-badge> -->
 			<n-dropdown :options="options" @select="handleSelect">
 				<span class="flex justify-center items-center">
 					<n-avatar :src="BASE_URL + user?.avatar" />

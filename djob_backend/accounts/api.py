@@ -4,7 +4,7 @@ from accounts.models import UserAccount
 from core.handler import APIResponse
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated,AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.views import APIView
 
 from .serializers import (SignUpSerializer, UserProfileSerializer,
@@ -21,7 +21,7 @@ class RegisterView(APIView):
     def post(self,request):
         data = request.data
         data['email'] = data['email'].lower()
-        data['is_employer'] = data['is_employer'] == 'true'
+        # data['is_employer'] = data['is_employer'] == 'true'
         serializer = self.serializer_class(data=data)
             
         if serializer.is_valid():
@@ -33,7 +33,7 @@ class RegisterView(APIView):
                 User.objects.create_user(**serializer.validated_data)
                 message = '普通用户创建成功！'
 
-            return APIResponse(code=200,msg=message,data=serializer.data)
+            return APIResponse(code=200,msg=message)
         # {'error': '在创建用户时出现错误，请联系管理员'}
 
         return APIResponse(code=400,msg="用户名或密码错误",data=serializer.errors)

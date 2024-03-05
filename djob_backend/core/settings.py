@@ -85,14 +85,17 @@ DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.mysql',   #数据库引擎更改最后一个字段
     #     'NAME': "djob",   #数据库名
+    #     'OPTIONS':{
+    #       'init_command':'SET default_storage_engine=INNODB',
+    #     },
     #     'USER':"root",    #用户名
-    #     'PASSWORD':"123456",    #密码
+    #     'PASSWORD':"wang0926",    #密码
     #     'HOST':"localhost",   #主机地址
     #     'PORT':"3306",    #端口
     # }
 }
 
-DATABASES_ROUTERS = ['accounts.router.AuthRouter']
+# DATABASES_ROUTERS = ['accounts.router.AuthRouter']
 
 
 # Password validation

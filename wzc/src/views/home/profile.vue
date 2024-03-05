@@ -11,8 +11,11 @@
 							<n-text>性别:{{ userinfo.gender }}</n-text>
 							<n-text
 								>用户身份:
-								<n-tag type="success">{{
+								<n-tag v-if="!userinfo.is_admin" type="success">{{
 									userinfo.is_employer ? "招聘者" : "普通用户"
+								}}</n-tag>
+								<n-tag else type="success">{{
+									userinfo.is_admin ? "管理员" : "普通用户"
 								}}</n-tag>
 							</n-text>
 							<n-text>注册时间:{{ userinfo.date_joined }}</n-text>
@@ -148,7 +151,7 @@
 					<n-upload
 						list-type="image-card"
 						:max="1"
-						accept=".png,jpg,.jpeg"
+						accept=".png,.jpg,.jpeg"
 						:default-upload="false"
 						@change="handleChange"
 					>
@@ -221,17 +224,17 @@
 							Authorization: 'Bearer ' + getToken(),
 						}"
 						:max="1"
-						accept=".png,jpg,.jpeg"
+						accept=".png,.jpg,.jpeg"
 						name="avatar"
 						@finish="handleFinish"
 					>
 						点击上传
 					</n-upload>
 				</n-form-item>
-				<n-form-item label="用户用户">
+				<n-form-item label="昵称">
 					<n-input v-model:value="profile.name" clearable />
 				</n-form-item>
-				<n-form-item label="用户性别">
+				<n-form-item label="性别">
 					<n-select v-model:value="profile.gender" :options="sex" />
 				</n-form-item>
 				<n-form-item label="手机号码">
@@ -316,26 +319,24 @@ function editUser() {
 function addCompany() {
 	formRef.value.validate((err) => {
 		if (err) return;
-		if (!form.logo) return toast("请先上传头像", "error");
+		if (!form.avatar) return toast("请先上传头像", "error");
 		createCompApi(form).then((res) => {
-			console.log(res);
+			// console.log(res);
 			showModal.value = false;
 		});
 	});
 }
 function handleChange(e) {
-	console.log(e);
 	const formData = new FormData();
 	const file = e.file;
-	console.log(file);
-	formData.append("logo", file.file, file.name);
+	formData.append("avatar", file.file, file.name);
 	uploadCompLogoApi(formData).then((res) => {
-		form.logo = res;
+		form.avatar = res;
 	});
 }
 
 function beforeUpload(data) {
-	console.log(data.file.file?.type);
+	// console.log(data.file.file?.type);
 	if (data.file.file?.type !== "application/pdf") {
 		toast("只能上传pdf文件，请重新上传", "error");
 		return false;
