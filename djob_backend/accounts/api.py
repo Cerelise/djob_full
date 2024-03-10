@@ -15,7 +15,7 @@ from .validators import validate_file_extension, validate_photo_extension
 User = get_user_model()
 
 class RegisterView(APIView):
-
+    permission_classes = [AllowAny]
     serializer_class = SignUpSerializer
 
     def post(self,request):

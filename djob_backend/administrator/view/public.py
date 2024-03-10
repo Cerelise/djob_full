@@ -4,7 +4,6 @@ from core.handler import APIResponse
 from django.db.models import Q
 from jobs.models import Job
 from jobs.serializers import JobSerializer
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 
@@ -41,8 +40,3 @@ class FilterRecruitDataView(APIView):
             data = merged_data
             
         return APIResponse(code=200,msg='',data=data)
-    
-
-# @api_view('GET')
-# @permission_classes([IsAdminUser])
-# def getNotification()

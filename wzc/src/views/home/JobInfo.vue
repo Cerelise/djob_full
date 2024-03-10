@@ -76,7 +76,7 @@
 							<div>企业行业:{{ job?.company?.company_type }}</div>
 							<div>企业资产:{{ job?.company?.captical }}</div>
 							<div>人数规模:{{ job?.company?.staff_size }}</div>
-							<div>职位地址:{{ job?.company?.address }}</div>
+							<div>企业地址:{{ job?.company?.address }}</div>
 						</div>
 					</div>
 					<div class="bg-white shadow-md rounded p-5">

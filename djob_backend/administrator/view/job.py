@@ -17,7 +17,7 @@ def AccountPaginator(page):
     return paginator
 
 class VerifyJob(APIView):
-    permission_classes = [IsEmployerOrReadOnly]
+    permission_classes = [IsAdminUser]
     def post(self,request,pk):
 
         data = request.data

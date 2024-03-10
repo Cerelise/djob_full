@@ -3,9 +3,9 @@
 		class="fixed top-0 h-14 w-full bg-[#3852AE] flex justify-between items-center px-8 text-white z-50"
 	>
 		<div class="cursor-pointer text-xl" @click="$router.push('/home')">
-			Job Portal
+			大学生兼职网站
 		</div>
-		<div class="flex items-center items-center cursor-pointer">
+		<div class="flex items-center cursor-pointer">
 			<div v-for="item in menu" class="p-3" @click="$router.push(item.path)">
 				<span>{{ item.title }}</span>
 			</div>

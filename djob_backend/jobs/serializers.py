@@ -46,7 +46,7 @@ class CommitJobSerializer(serializers.ModelSerializer):
 
       class Meta:
           model = Job
-          fields = ('id','title','description','location','category','salary','vacancy','employer','company')
+          fields = ('id','title','description','location','category','salary','employer','company')
 
 class UpdateJobSerializer(serializers.ModelSerializer):
 

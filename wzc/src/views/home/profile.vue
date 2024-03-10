@@ -9,13 +9,14 @@
 							<n-text>姓名:{{ userinfo.name }}</n-text>
 							<n-text>邮箱:{{ userinfo.email }}</n-text>
 							<n-text>性别:{{ userinfo.gender }}</n-text>
+							<n-text>手机:{{ userinfo.phone }}</n-text>
 							<n-text
 								>用户身份:
 								<n-tag v-if="!userinfo.is_admin" type="success">{{
 									userinfo.is_employer ? "招聘者" : "普通用户"
 								}}</n-tag>
-								<n-tag else type="success">{{
-									userinfo.is_admin ? "管理员" : "普通用户"
+								<n-tag v-else type="success">{{
+									(userinfo.is_admin = "管理员")
 								}}</n-tag>
 							</n-text>
 							<n-text>注册时间:{{ userinfo.date_joined }}</n-text>
@@ -93,7 +94,7 @@
 							<div>企业行业:{{ company?.company_type }}</div>
 							<div>企业资产:{{ company?.captical }}</div>
 							<div>人数规模:{{ company?.staff_size }}</div>
-							<div>公司地址:{{ company?.address }}</div>
+							<div>企业地址:{{ company?.address }}</div>
 							<div>经营范围:{{ company?.business_scope }}</div>
 						</div>
 						<div class="leading-5 text-sm">
@@ -164,20 +165,20 @@
 				<n-form-item label="公司地址" path="address">
 					<n-input clearable v-model:value="form.address" />
 				</n-form-item>
-				<n-form-item label="公司行业" path="address">
+				<n-form-item label="公司行业" path="company_type">
 					<n-input clearable v-model:value="form.company_type" />
 				</n-form-item>
-				<n-form-item label="公司规模" path="address">
-					<n-input clearable type="number" v-model:value="form.staff_size">
+				<n-form-item label="公司规模" path="staff_size">
+					<n-input clearable v-model:value="form.staff_size">
 						<template #suffix> 人 </template>
 					</n-input>
 				</n-form-item>
-				<n-form-item label="注册资本" path="address">
-					<n-input clearable type="number" v-model:value="form.captical">
+				<n-form-item label="注册资本" path="captical">
+					<n-input clearable v-model:value="form.captical">
 						<template #suffix> 元 </template>
 					</n-input>
 				</n-form-item>
-				<n-form-item label="经营范围" path="address">
+				<n-form-item label="经营范围" path="scope">
 					<n-input
 						clearable
 						type="textarea"
@@ -185,7 +186,7 @@
 						v-model:value="form.business_scope"
 					/>
 				</n-form-item>
-				<n-form-item label="公司描述" path="address">
+				<n-form-item label="公司描述" path="desc">
 					<n-input
 						clearable
 						type="textarea"

@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-[100vh] min-w-[100vw] flex justify-center items-center">
-    <div class="text-7xl">Welcome to Job Portal</div>
-  </div>
+	<div class="min-h-[100vh] min-w-[100vw] flex justify-center items-center">
+		<div class="text-7xl">欢迎使用大学生兼职网站</div>
+	</div>
 </template>
 
 <script setup></script>
