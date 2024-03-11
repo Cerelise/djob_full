@@ -16,6 +16,18 @@ SECRET_KEY = os.environ.setdefault('SECRET_KEY','unknown')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG') == 'True'
 
+WEBSITE_URL = 'http://127.0.0.1:8000'
+
+AUTH_USER_MODEL = 'accounts.UserAccount'
+
+# email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
 ALLOWED_HOSTS = []
 
 
@@ -95,6 +107,16 @@ DATABASES = {
     # }
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
 # DATABASES_ROUTERS = ['accounts.router.AuthRouter']
 
 
@@ -159,4 +181,3 @@ SIMPLE_JWT = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'accounts.UserAccount'
