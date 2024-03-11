@@ -28,7 +28,8 @@ class RegisterView(APIView):
         verify_code = data['code']
         # redis_conn = get_redis_connection()
         stored_code = redis_instance.get(data['email'])
-        print(stored_code)
+        if stored_code == None:
+            return APIResponse(code=400,msg="验证码已过期，请重新获取！")
 
         if verify_code == stored_code:       
             data['email'] = data['email'].lower()

@@ -10,19 +10,6 @@ from rest_framework.permissions import AllowAny
 from .models import UserAccount
 
 
-def activateemail(request):
-    email = request.GET.get('email','')
-    id = request.GET.get('id','')
-
-    if email and id:
-        user = UserAccount.objects.get(id=id,email=email)
-        user.is_active = True
-        user.save()
-
-        return HttpResponse('账号已激活!请您继续接下来的操作。')
-    else:
-        return HttpResponse('该账号似乎还未被创建，请重试！')
-
 # 生成验证码
 def generate_verification_code():
     code = ""
@@ -52,8 +39,20 @@ def send_verify_email(request):
     # 过期时间5min
     redis_conn.expire(email_address,500)
 
-    return APIResponse(code=200,msg='验证码已经生成！')
+    return APIResponse(code=200,msg='验证码已经发送，请注意查收！')
 
+def activateemail(request):
+    email = request.GET.get('email','')
+    id = request.GET.get('id','')
+
+    if email and id:
+        user = UserAccount.objects.get(id=id,email=email)
+        user.is_active = True
+        user.save()
+
+        return HttpResponse('账号已激活!请您继续接下来的操作。')
+    else:
+        return HttpResponse('该账号似乎还未被创建，请重试！')
 
 @api_view(['GET'])
 def store_verification_code(request):
