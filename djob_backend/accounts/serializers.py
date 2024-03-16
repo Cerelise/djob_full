@@ -8,7 +8,6 @@ class SignUpSerializer(serializers.ModelSerializer):
     email = serializers.CharField(max_length=80,required=True)
     password = serializers.CharField(min_length=8, write_only=True,required=True)
     is_employer = serializers.BooleanField(required=True)
-    
     class Meta:
         model = User
         fields = ['email','password','is_employer']

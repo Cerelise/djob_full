@@ -1,3 +1,4 @@
+from accounts.views import activateemail
 from core import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -14,6 +15,8 @@ urlpatterns = [
     path('api/jobs/',include('jobs.urls')),
     path('api/notification/',include('notification.urls')),
     path('api/manager/',include('administrator.urls')),
+    path('api/activateemail/',activateemail,name='activateemail'),
+
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL,
            document_root=settings.MEDIA_ROOT)

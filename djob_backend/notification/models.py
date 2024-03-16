@@ -5,10 +5,10 @@ from company.models import Company
 from django.db import models
 from jobs.models import CandidatesApplied, Job
 
-# Create your models here.
 
+# 通知模型
 class Notification(models.Model):
-
+  # 通知类型声明
   NEWAPPLYREQUEST = 'new_apply_request'
   ACCEPTAPPLYREQUEST = 'accept_apply_request'
   REJECTAPPLYREQUEST = 'reject_apply_request'
@@ -19,7 +19,7 @@ class Notification(models.Model):
   ACCEPTCOMPANYREQUEST = 'accept_company_request'
   REJECTCOMPANYREQUEST = 'reject_company_request'
 
-
+  # 初始化类型
   CHOICE_TYPE_OF_NOTIFICATION = {
       (NEWAPPLYREQUEST,'New applyrequest'),
       (ACCEPTAPPLYREQUEST,'Accept applyrequest'),
@@ -34,7 +34,6 @@ class Notification(models.Model):
 
   id = models.UUIDField(primary_key=True,default=uuid.uuid4)
   content = models.TextField()
-  # is_read = models.BooleanField(default=False)
   notification_status = models.SmallIntegerField(default=0) # 0 处理中 1 通过 2 未通过
   type_of_notification = models.CharField(max_length=50,choices=CHOICE_TYPE_OF_NOTIFICATION)
   application = models.ForeignKey(CandidatesApplied,on_delete=models.SET_NULL,blank=True,null=True)
