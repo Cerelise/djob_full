@@ -50,7 +50,7 @@
 							<ChatItem
 								v-for="item in job?.comments"
 								:chat="item"
-								@aaa="handleAAA"
+								@reply="handleReply"
 								:class="{ 'pl-10': item.type == 2 }"
 							/>
 						</div>
@@ -105,7 +105,7 @@ const rate = ref();
 const inputRef = ref(null);
 const placeholder = ref("写下你的评论...");
 const commentID = ref("None");
-
+// 初始化数据
 function initData(id) {
 	getJobInfoApi(id).then((res) => {
 		job.value = res;
@@ -116,14 +116,14 @@ watch(
 	() => route.params.id,
 	() => initData(route.params.id)
 );
-
-function handleAAA(name, id) {
+// 回复
+function handleReply(name, id) {
 	inputRef.value.focus();
 	console.log(inputRef.value.placeholder);
 	placeholder.value = `回复 @${name} `;
 	commentID.value = id.id;
 }
-
+// 评论
 function handlePublish() {
 	let params = {
 		content: content.value,

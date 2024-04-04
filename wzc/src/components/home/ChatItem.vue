@@ -20,7 +20,7 @@
 			<div
 				v-if="!show"
 				class="flex justify-center items-center cursor-pointer"
-				@click="$emit('aaa', chat?.created_by?.name, chat)"
+				@click="$emit('reply', chat?.created_by?.name, chat)"
 			>
 				<n-icon color="#8491A5" size="20"><ChatBubbleFilled /></n-icon>
 				<div class="pl-1">回复</div>

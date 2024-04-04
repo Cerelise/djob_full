@@ -37,7 +37,7 @@ def send_verify_email(request):
     redis_conn = get_redis_connection()
     res = redis_conn.set(email_address,verify_code)
     # 过期时间5min
-    redis_conn.expire(email_address,500)
+    redis_conn.expire(email_address,300)
 
     return APIResponse(code=200,msg='验证码已经发送，请注意查收！')
 
